@@ -3,8 +3,10 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import Avatar from '../Avatar';
 import MenuItem from './MenuItem';
 import { useCallback, useState } from 'react';
+import useRegisterModel from '@/app/hooks/useRegisterModel';
 
 const UserMenu = () => {
+    const RegisterModel = useRegisterModel(); // used for showing the sign up form on the screen when the user interacts with the navbar
     const [isOpen, setIsOpen] = useState(false);
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
@@ -69,7 +71,7 @@ const UserMenu = () => {
                                 onClick={() => {}}
                                 lable="Login"/>
                             <MenuItem
-                                onClick={() => {}}
+                                onClick={RegisterModel.onOpen}
                                 lable="Sign up"/>
                         </>
                     </div>
