@@ -7,7 +7,7 @@ import RegisterModel from './components/Models/RegisterModel';
 import ToasterProvider from './Providers/ToasterProvider';
 
 export const metadata = {
-  title: 'AirBnB',
+  title: 'HomeStays',
   description: 'AirBnB clone',
 }
 

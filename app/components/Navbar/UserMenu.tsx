@@ -27,7 +27,7 @@ const UserMenu = () => {
                         hover:bg-neutral-100
                         transition
                         cursor-pointer">
-                    AirBnB your home
+                    Be a host !
                 </div>
                 <div
                     onClick={toggleOpen}
