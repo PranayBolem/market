@@ -4,9 +4,11 @@ import Avatar from '../Avatar';
 import MenuItem from './MenuItem';
 import { useCallback, useState } from 'react';
 import useRegisterModel from '@/app/hooks/useRegisterModel';
+import useLoginModel from '@/app/hooks/useLoginModel';
 
 const UserMenu = () => {
     const RegisterModel = useRegisterModel(); // used for showing the sign up form on the screen when the user interacts with the navbar
+    const LoginModel = useLoginModel(); // used to show the login form on the screen
     const [isOpen, setIsOpen] = useState(false);
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
@@ -68,7 +70,7 @@ const UserMenu = () => {
                     <div className="flex flex-col cursor-pointer">
                         <>
                             <MenuItem
-                                onClick={() => {}}
+                                onClick={LoginModel.onOpen}
                                 lable="Login"/>
                             <MenuItem
                                 onClick={RegisterModel.onOpen}
