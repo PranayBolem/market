@@ -44,7 +44,7 @@ const RegisterModel = () => {
     const bodyContent = (
         <div className='flex flex-col gap-4'>
             <Heading 
-                title='Welcome to AirBnB'
+                title='Welcome to HomeStays'
                 subtitle='Create an account!'
                 center
             />
