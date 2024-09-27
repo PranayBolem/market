@@ -26,7 +26,7 @@ const LoginModel = () => {
     } = useForm <FieldValues>({
         defaultValues: {
             email: '',
-            password: ''
+            password: '',
         }
     });
 

@@ -5,8 +5,16 @@ import MenuItem from './MenuItem';
 import { useCallback, useState } from 'react';
 import useRegisterModel from '@/app/hooks/useRegisterModel';
 import useLoginModel from '@/app/hooks/useLoginModel';
+import { User } from '@prisma/client';
+import { signOut } from 'next-auth/react';
 
-const UserMenu = () => {
+interface UserMenuProps {
+    currentUser?: User | null
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({
+    currentUser
+}) => {
     const RegisterModel = useRegisterModel(); // used for showing the sign up form on the screen when the user interacts with the navbar
     const LoginModel = useLoginModel(); // used to show the login form on the screen
     const [isOpen, setIsOpen] = useState(false);
@@ -68,14 +76,35 @@ const UserMenu = () => {
                         top-12
                         text-sm">
                     <div className="flex flex-col cursor-pointer">
-                        <>
-                            <MenuItem
-                                onClick={LoginModel.onOpen}
-                                lable="Login"/>
-                            <MenuItem
-                                onClick={RegisterModel.onOpen}
-                                lable="Sign up"/>
-                        </>
+                        {currentUser ? (
+                            <>
+                                <MenuItem
+                                    onClick={() => {}}
+                                    lable="My trips"/>
+                                <MenuItem
+                                    onClick={() => {}}
+                                    lable="My favourites"/>
+                                <MenuItem
+                                    onClick={() => {}}
+                                    lable="My reservations"/>
+                                <MenuItem
+                                    onClick={() => {}}
+                                    lable="My properties"/>
+                                <hr />
+                                <MenuItem
+                                    onClick={() => signOut()}
+                                    lable="Logout"/>
+                            </>
+                        ) : (
+                            <>
+                                <MenuItem
+                                    onClick={LoginModel.onOpen}
+                                    lable="Login"/>
+                                <MenuItem
+                                    onClick={RegisterModel.onOpen}
+                                    lable="Sign up"/>
+                            </>
+                        )}
                     </div>
                 </div>
             
