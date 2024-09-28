@@ -10,6 +10,7 @@ import Heading from '../Heading';
 import Input from '../Inputs/Input';
 import toast, { Toast } from 'react-hot-toast';
 import Button from '../Button';
+import { signIn } from 'next-auth/react';
 
 const RegisterModel = () => {
     const RegisterModel = useRegisterModel ();
@@ -79,17 +80,17 @@ const RegisterModel = () => {
     const footerContent = (
         <div className='flex flex-col gap-4 mt-3'>
             <hr />
-            <Button 
+            {/* <Button 
                 outline
                 label='Continue with Google'
                 Icon={FcGoogle}
-                onClick={() => {}}
-            />
+                onClick={() => signIn('google')}
+            /> */}
             <Button 
                 outline
                 label='Continue with Github'
                 Icon={AiFillGithub}
-                onClick={() => {}}
+                onClick={() => signIn('github')}
             />
             <div
                 className='
