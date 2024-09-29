@@ -52,6 +52,11 @@ const LoginModel = () => {
         })
     }
 
+    const toggle = useCallback(() => {
+        LoginModel.onClose();
+        RegisterModel.onOpen();
+    }, [LoginModel, RegisterModel]);
+
     const bodyContent = (
         <div className='flex flex-col gap-4'>
             <Heading 
@@ -99,20 +104,18 @@ const LoginModel = () => {
                 text-neutral-500
                 text-center
                 mt-4
-                font-light'
-            >
+                font-light'>
                 <div className='justify-center flex flex-row items-centre gap-2'>
                     <div>
-                        Already have an account with us?
+                        First time using Homestays?
                     </div>
                     <div
-                        onClick={RegisterModel.onClose} // closing the box if the user presses login button
+                        onClick={toggle} 
                         className='
                             text-neutral-800
                             cursor-pointer
-                            hover:underline'
-                    >
-                        Log in
+                            hover:underline'>
+                        Create an account
                     </div>
                 </div>
             </div>

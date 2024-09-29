@@ -6,6 +6,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import useRegisterModel from '@/app/hooks/useRegisterModel';
+import useLoginModel from '@/app/hooks/useLoginModel';
 import Heading from '../Heading';
 import Input from '../Inputs/Input';
 import toast, { Toast } from 'react-hot-toast';
@@ -14,6 +15,7 @@ import { signIn } from 'next-auth/react';
 
 const RegisterModel = () => {
     const RegisterModel = useRegisterModel ();
+    const LoginModel = useLoginModel ();
     const [isLoading, setIsLoading] = useState(false);
     const {
         register,
@@ -23,7 +25,7 @@ const RegisterModel = () => {
         defaultValues: {
             name: '',
             email: '',
-            password: ''
+            password: '',
         }
     });
 
@@ -41,6 +43,11 @@ const RegisterModel = () => {
                 setIsLoading(false);
             })
     }
+
+    const toggle = useCallback (() => {
+        RegisterModel.onClose();
+        LoginModel.onOpen();
+    }, [RegisterModel, LoginModel]);
 
     const bodyContent = (
         <div className='flex flex-col gap-4'>
@@ -104,12 +111,11 @@ const RegisterModel = () => {
                         Already have an account with us?
                     </div>
                     <div
-                        onClick={RegisterModel.onClose} // closing the box if the user presses login button
+                        onClick={toggle} 
                         className='
                             text-neutral-800
                             cursor-pointer
-                            hover:underline'
-                    >
+                            hover:underline'>
                         Log in
                     </div>
                 </div>

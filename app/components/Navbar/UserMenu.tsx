@@ -2,9 +2,10 @@
 import { AiOutlineMenu } from 'react-icons/ai';
 import Avatar from '../Avatar';
 import MenuItem from './MenuItem';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import useRegisterModel from '@/app/hooks/useRegisterModel';
 import useLoginModel from '@/app/hooks/useLoginModel';
+import useHostModel from '@/app/hooks/useHostModel';
 import { signOut } from 'next-auth/react';
 import { SafeUser } from '@/app/types';
 
@@ -17,15 +18,43 @@ const UserMenu: React.FC<UserMenuProps> = ({
 }) => {
     const RegisterModel = useRegisterModel(); // used for showing the sign up form on the screen when the user interacts with the navbar
     const LoginModel = useLoginModel(); // used to show the login form on the screen
+    const HostModel = useHostModel();
     const [isOpen, setIsOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null); // used to track the clicks when interacting with user menu
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
     }, []);
+
+    const handleClickOutside = useCallback((event: MouseEvent) => {
+        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+          setIsOpen(false); // close the menu if clicked outside
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+    
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside); 
+        };
+    }, [isOpen, handleClickOutside]);
+    
+    const onRent = useCallback(() => {
+        if(!currentUser) {
+            return LoginModel.onOpen();
+        }
+        HostModel.onOpen();
+    }, [currentUser, LoginModel, HostModel]);
+
     return (
-        <div className="relative">
+        <div className="relative" ref={menuRef}>
             <div className="flex flex-row items-center gap-3">
                 <div
-                    onClick={() => {}}
+                    onClick={onRent}
                     className="
                         hidden
                         md:block
@@ -73,7 +102,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                         bg-white
                         overflow-hidden
                         right-0
-                        top-12
+                        top-16
                         text-sm">
                     <div className="flex flex-col cursor-pointer">
                         {currentUser ? (
@@ -91,7 +120,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                     onClick={() => {}}
                                     lable="My properties"/>
                                 <MenuItem
-                                    onClick={() => {}}
+                                    onClick={HostModel.onOpen}
                                     lable="Become a host"/>
                                 <hr />
                                 <MenuItem
