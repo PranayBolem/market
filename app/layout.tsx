@@ -7,6 +7,7 @@ import RegisterModel from './components/Models/RegisterModel';
 import LoginModel from './components/Models/LoginModel';
 import ToasterProvider from './Providers/ToasterProvider';
 import getCurrentUser from './actions/getCurrentUser';
+import HostModel from './components/Models/HostModel';
 
 export const metadata = {
   title: 'HomeStays',
@@ -31,6 +32,7 @@ export default async function RootLayout({
           <ToasterProvider />
           <LoginModel      />
           <RegisterModel   />
+          <HostModel       />
           <Navbar currentUser = {currentUser}/>
         </ClientOnly>
         {children}

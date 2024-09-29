@@ -5,7 +5,7 @@ import MenuItem from './MenuItem';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import useRegisterModel from '@/app/hooks/useRegisterModel';
 import useLoginModel from '@/app/hooks/useLoginModel';
-import useRentModel from '@/app/hooks/useRentModel';
+import useHostModel from '@/app/hooks/useHostModel';
 import { signOut } from 'next-auth/react';
 import { SafeUser } from '@/app/types';
 
@@ -18,7 +18,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 }) => {
     const RegisterModel = useRegisterModel(); // used for showing the sign up form on the screen when the user interacts with the navbar
     const LoginModel = useLoginModel(); // used to show the login form on the screen
-    const RentModel = useRentModel();
+    const HostModel = useHostModel();
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null); // used to track the clicks when interacting with user menu
     const toggleOpen = useCallback(() => {
@@ -47,8 +47,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
         if(!currentUser) {
             return LoginModel.onOpen();
         }
-        RentModel.onOpen();
-    }, [currentUser, LoginModel, RentModel]);
+        HostModel.onOpen();
+    }, [currentUser, LoginModel, HostModel]);
 
     return (
         <div className="relative" ref={menuRef}>
@@ -120,7 +120,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                     onClick={() => {}}
                                     lable="My properties"/>
                                 <MenuItem
-                                    onClick={RentModel.onOpen}
+                                    onClick={HostModel.onOpen}
                                     lable="Become a host"/>
                                 <hr />
                                 <MenuItem
