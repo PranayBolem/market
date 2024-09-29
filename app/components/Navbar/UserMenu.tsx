@@ -90,6 +90,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                 <MenuItem
                                     onClick={() => {}}
                                     lable="My properties"/>
+                                <MenuItem
+                                    onClick={() => {}}
+                                    lable="Become a host"/>
                                 <hr />
                                 <MenuItem
                                     onClick={() => signOut()}
