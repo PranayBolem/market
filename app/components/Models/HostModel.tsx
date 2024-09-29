@@ -5,7 +5,9 @@ import { useMemo, useState } from "react";
 import Heading from "../Heading";
 import { categories } from "../Navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
+import CountrySelect from "../Inputs/CountrySelect";
 import { FieldValue, FieldValues, useForm } from "react-hook-form";
+import Map from "../Map";
 
 enum STEPS {
     CATEGORY    = 0,
@@ -44,6 +46,8 @@ const HostModel = () => {
     });
 
     const category = watch('category');
+    const location = watch('location');
+
     const setCustomValue = (id: string, value: any) => {
         setValue(id, value, {
             shouldDirty: true,
@@ -103,11 +107,27 @@ const HostModel = () => {
         </div>
     );
 
+    if (step === STEPS.LOCATION) {
+        bodyContent = (
+            <div className="flex flex-col gap-8">
+                <Heading 
+                    title="Where is your place located?"
+                    subtitle="Help guests find you"
+                />
+                <CountrySelect
+                value={location}
+                    onChange={(value) => setCustomValue('location', value)}
+                />
+                <Map />
+            </div>
+        )
+    }
+
     return (
         <Model 
         isOpen= {HostModel.isOpen}
         onClose={HostModel.onClose}
-        onSubmit={HostModel.onClose}
+        onSubmit={onNext}
         actionLabel={actionLabel}
         secondaryActionLabel={secondaryActionLabel}
         secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
