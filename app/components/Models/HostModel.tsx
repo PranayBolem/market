@@ -6,10 +6,14 @@ import Heading from "../Heading";
 import { categories } from "../Navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
 import CountrySelect from "../Inputs/CountrySelect";
-import { FieldValue, FieldValues, useForm } from "react-hook-form";
+import { FieldValue, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import Counter from "../Inputs/Counter";
 import ImageUpload from "../Inputs/ImageUpload";
+import Input from "../Inputs/Input";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 enum STEPS {
     INTRODUCTION= 0,
@@ -24,7 +28,9 @@ enum STEPS {
 
 const HostModel = () => {
     const HostModel = useHostModel();
+    const router = useRouter();
     const [step, setStep] = useState(STEPS.INTRODUCTION);
+    const [isLoading, setIsLoading] = useState(false);
 
     const {
         register,
@@ -75,6 +81,29 @@ const HostModel = () => {
     const onNext = () => {
         setStep((value) => value + 1);
     };
+
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        if (step != STEPS.PRICE) {
+            return onNext();
+        }
+
+        setIsLoading(true);
+
+        axios.post('/api/listings', data)
+        .then(() => {
+            toast.success('Listing Created!');
+            router.refresh();
+            reset();
+            setStep(STEPS.INTRODUCTION);
+            HostModel.onClose();
+        })
+
+        .catch(() => {
+            toast.error('Something went wrong :(');
+        }).finally(() => {
+            setIsLoading(false);
+        })
+    }
 
     const actionLabel = useMemo(() => {
         if (step === STEPS.PRICE) {
@@ -238,7 +267,7 @@ const HostModel = () => {
                 />
                 <hr/>
                 <Counter 
-                    title="Guests"
+                    title="Washrooms"
                     subtitle="How many bathrooms do you have?"
                     value={bathroomCount}
                     onChange={(value) => setCustomValue('bathroomCount', value)}
@@ -261,11 +290,60 @@ const HostModel = () => {
         )
     }
 
+    if (step === STEPS.DESCRIPTION) {
+        bodyContent = (
+            <div className="flex flex-col gap-8">
+                <Heading 
+                    title="Describe your place"
+                    subtitle="Short and sweet works the best ;)"
+                />
+                <Input 
+                    id="title"
+                    label="title"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
+                <hr/>
+                <Input
+                    id="description"
+                    label="Description"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
+            </div>
+        )
+    }
+
+    if (step === STEPS.PRICE) {
+        bodyContent = (
+            <div className="flex flex-col gap-8">
+                <Heading
+                    title="Now, set your price!"
+                    subtitle="Charge for each night"
+                />
+                <Input
+                    id="price"
+                    label="Price"
+                    formatPrice
+                    type="number"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
+            </div>
+        )
+    }
+
     return (
         <Model 
         isOpen= {HostModel.isOpen}
         onClose={HostModel.onClose}
-        onSubmit={onNext}
+        onSubmit={handleSubmit(onSubmit)}
         actionLabel={actionLabel}
         secondaryActionLabel={secondaryActionLabel}
         secondaryAction={step === STEPS.INTRODUCTION ? undefined : onBack}
