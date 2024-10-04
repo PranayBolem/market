@@ -26,7 +26,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             onSuccess={handleUpload}
             uploadPreset= "j48hadtq"
             options={{
-                maxFiles: 1
+                maxFiles: 10
             }}
         >
             {({open}) => {
