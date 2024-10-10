@@ -2,6 +2,7 @@
 import { Range } from 'react-date-range';
 import Calendar from '../Inputs/Calendar';
 import Button from '../Button';
+import Chatbot from '../Chatbot';
 
 interface ListingReservationProps {
     price: number;
@@ -66,6 +67,9 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
                 </div>
                 <div>
                     $ {totalPrice}
+                </div>
+                <div>
+                    <Chatbot/>
                 </div>
             </div>
         </div>
