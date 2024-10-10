@@ -15,6 +15,7 @@ model User {
   name String?
   email String? @unique
   emailVerified DateTime?
+  messages Message[] @relation("UserMessages")  // Define relation
   image String?
   hashedPassword String?
   createdAt DateTime @default(now())
@@ -24,6 +25,13 @@ model User {
   accounts Account[]
   listings Listing[]
   reservations Reservation[]
+}
+
+model Message {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+  userId String @db.ObjectId
+  user     User     @relation("UserMessages", fields: [userId], references: [id]) // Add the opposite relation field
 }
 
 model Account {
