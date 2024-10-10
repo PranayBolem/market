@@ -8,6 +8,7 @@ import useLoginModel from '@/app/hooks/useLoginModel';
 import useHostModel from '@/app/hooks/useHostModel';
 import { signOut } from 'next-auth/react';
 import { SafeUser } from '@/app/types';
+import { useRouter } from 'next/navigation';
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
@@ -16,6 +17,7 @@ interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({
     currentUser
 }) => {
+    const router = useRouter();
     const RegisterModel = useRegisterModel(); // used for showing the sign up form on the screen when the user interacts with the navbar
     const LoginModel = useLoginModel(); // used to show the login form on the screen
     const HostModel = useHostModel();
@@ -108,7 +110,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                         {currentUser ? (
                             <>
                                 <MenuItem
-                                    onClick={() => {}}
+                                    onClick={() => router.push('/trips')}
                                     lable="My trips"/>
                                 <MenuItem
                                     onClick={() => {}}
