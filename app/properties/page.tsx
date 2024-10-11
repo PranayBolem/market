@@ -1,10 +1,10 @@
 import EmptyState from "../components/Navbar/EmptyState";
 import ClientOnly from "../components/ClientOnly";
 import getCurrentUser from "../actions/getCurrentUser";
-import getReservations from "../actions/getReservations";
-import TripsClient from "./TripsClient";
+import getListings from "../actions/getListings";
+import PropertiesClient from "./PropertiesClient";
 
-const TripsPage = async () => {
+const PropertiesPage = async () => {
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
@@ -18,16 +18,16 @@ const TripsPage = async () => {
         )
     }
 
-    const reservations = await getReservations({
+    const listings = await getListings({
         userId: currentUser.id
     });
 
-    if (reservations.length == 0) {
+    if (listings.length == 0) {
         return(
             <ClientOnly>
                 <EmptyState
-                    title = "No trips found"
-                    subtitle = "looks like you haven't reserved any trips."
+                    title = "No properties found"
+                    subtitle = "looks like you haven't listed any properties."
                 />
             </ClientOnly>
         )
@@ -35,12 +35,12 @@ const TripsPage = async () => {
 
     return (
         <ClientOnly>
-            <TripsClient 
-                reservations = {reservations}
+            <PropertiesClient 
+                listings = {listings}
                 currentUser = {currentUser}
             />
         </ClientOnly>
     )
 }
 
-export default TripsPage;
+export default PropertiesPage;
