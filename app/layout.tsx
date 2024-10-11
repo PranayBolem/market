@@ -1,13 +1,13 @@
 import './globals.css'
-import { Nunito } from 'next/font/google'
+import { Nunito, Seaweed_Script } from 'next/font/google'
 import Navbar from './components/Navbar/Navbar';
 import ClientOnly from './components/ClientOnly';
-import Model from './components/Models/Model';
 import RegisterModel from './components/Models/RegisterModel';
 import LoginModel from './components/Models/LoginModel';
 import ToasterProvider from './Providers/ToasterProvider';
 import getCurrentUser from './actions/getCurrentUser';
 import HostModel from './components/Models/HostModel';
+import SearchModel from './components/Models/SearchModel';
 
 export const metadata = {
   title: 'HomeStays',
@@ -30,6 +30,7 @@ export default async function RootLayout({
       <body className={font.className}>
         <ClientOnly>
           <ToasterProvider />
+          <SearchModel     />
           <LoginModel      />
           <RegisterModel   />
           <HostModel       />
