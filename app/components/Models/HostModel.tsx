@@ -124,7 +124,7 @@ const HostModel = () => {
     let bodyContent = (
         <div className="flex flex-col gap-8">
                 <h1 className="text-5xl">
-                    It's easy to get started
+                    It&apos;s easy to get started
                 </h1>
                 <div className="
                 grid
