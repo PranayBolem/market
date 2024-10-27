@@ -1,4 +1,3 @@
-'use client';
 import getCurrentUser from "./actions/getCurrentUser";
 import getListings, { IListingParams } from "./actions/getListings";
 import ClientOnly from "./components/ClientOnly";
@@ -11,8 +10,10 @@ interface HomeProps {
 }
 
 const Home = async ({ searchParams }: HomeProps) => {
-  const listings = await getListings(searchParams);
-  const currentUser = await getCurrentUser();
+  const [listings, currentUser] = await Promise.all([
+    getListings(searchParams),
+    getCurrentUser()
+  ]);
 
   if (listings.length === 0) {
     return(
